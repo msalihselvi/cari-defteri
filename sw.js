@@ -1,5 +1,5 @@
 // Uygulama dosyalarını telefonda saklar; internet yokken de açılır.
-const CACHE = 'cari-defteri-v1';
+const CACHE = 'cari-defteri-v2';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
