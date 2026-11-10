@@ -18,6 +18,7 @@
   --accent:#1f5f4a; --accent-fg:#ffffff;
   --borc:#b3261e; --borc-bg:#fbe9e7; --alacak:#1b6e3c; --alacak-bg:#e3f2e8;
   --on-solid:#ffffff; --shade:rgba(20,25,22,.45); --warn-bg:#fff4d6; --warn:#7a5600;
+  --hero:#1f5f4a; --hero-fg:#f4f8f5; --hero-borc:#ffb4a8; --hero-alacak:#8fd9ae;
   --f-body:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;
   --f-num:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   color-scheme:light;
@@ -26,7 +27,7 @@
   --bg:#121614; --card:#1b201d; --fg:#e8ebe7; --muted:#9aa39c; --line:#2c332f;
   --accent:#5fbf98; --accent-fg:#0c1210;
   --borc:#ff8a80; --borc-bg:#3a1f1d; --alacak:#7fd6a0; --alacak-bg:#173025;
-  --on-solid:#0c1210; --shade:rgba(0,0,0,.6); --warn-bg:#3a3018; --warn:#f3cf75; color-scheme:dark}}
+  --on-solid:#0c1210; --shade:rgba(0,0,0,.6); --hero:#17352b; --hero-fg:#e8f3ec; --warn-bg:#3a3018; --warn:#f3cf75; color-scheme:dark}}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--fg)}
 body{font-family:var(--f-body);font-size:16px;-webkit-tap-highlight-color:transparent;padding-top:env(safe-area-inset-top,0px)}
@@ -76,6 +77,39 @@ input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--accent);
 .seg button{font:inherit;font-weight:700;padding:11px 8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--muted);cursor:pointer;font-size:.9rem}
 .seg button.on.borc{background:var(--borc-bg);color:var(--borc);border-color:var(--borc)}
 .seg button.on.alacak{background:var(--alacak-bg);color:var(--alacak);border-color:var(--alacak)}
+.hero{background:var(--hero);color:var(--hero-fg);border-radius:20px;padding:16px 18px 18px;margin:4px 0 12px;display:flex;flex-direction:column;gap:12px}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.hero h1{color:var(--hero-fg)}
+.hero-date{font-size:.8rem;opacity:.75;margin-bottom:2px}
+.hero .icon-btn{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22);color:var(--hero-fg)}
+.hero-net small{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.hero-amt{font-size:2.3rem;font-weight:600;line-height:1.1;margin-top:2px;letter-spacing:-.02em}
+.hero-amt span{font-size:1.3rem;opacity:.8}
+.hero-hint{font-size:.85rem;opacity:.8;margin-top:4px}
+.split{height:8px;border-radius:99px;background:var(--hero-alacak);overflow:hidden}
+.split i{display:block;height:100%;background:var(--hero-borc);border-radius:99px 0 0 99px}
+.hero-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:.82rem}
+.hero-pair div{display:flex;flex-direction:column;gap:2px;opacity:.95;min-width:0}
+.hero-pair b{font-size:1.02rem;font-weight:600}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.dot.borc{background:var(--hero-borc)} .dot.alacak{background:var(--hero-alacak)}
+.month{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:12px}
+.month-h{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.month-g{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.month-g div{min-width:0}
+.month-g small{display:block;font-size:.72rem;color:var(--muted)}
+.month-g b{font-size:.92rem;font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis}
+.chips{display:flex;gap:6px;margin-top:10px;overflow-x:auto}
+.chip{flex:none;font:inherit;font-size:.88rem;font-weight:600;padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+.chip span{color:var(--muted);font-weight:500;margin-left:2px}
+.chip.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.chip.on span{color:var(--bg);opacity:.7}
+.av{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.9rem;letter-spacing:.02em}
+.av0{background:#e3ece8;color:#1f5f4a}.av1{background:#f3e7da;color:#8a4b14}.av2{background:#e5e8f3;color:#34437a}
+.av3{background:#f1e4ea;color:#7c2f50}.av4{background:#e8eedb;color:#4d5f16}.av5{background:#e2eef0;color:#20616b}
+@media (prefers-color-scheme:dark){.av0{background:#1e3a30;color:#9fdcc0}.av1{background:#3d2d1b;color:#f0c08e}.av2{background:#262c45;color:#b6c2f0}
+.av3{background:#3c2430;color:#f0b3cc}.av4{background:#2f3a1a;color:#c9e08e}.av5{background:#1b3639;color:#9fd8e0}}
+@media (max-width:360px){.month-g{grid-template-columns:repeat(2,1fr)}.hero-amt{font-size:1.9rem}}
 .kalemler{display:flex;flex-direction:column;gap:10px}
 .kalem{display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
 .k-row{display:flex;align-items:center;gap:6px}
@@ -150,34 +184,70 @@ function renderList(app){
   let alacak=0, borc=0;
   const rows = S.cariler.map(c => ({...c, ...bakiye(c.id)}));
   rows.forEach(r => { if (r.bak>0) alacak+=r.bak; else borc-=r.bak; });
+  const net = alacak-borc;
+  const ay = today().slice(0,7);
+  const ayAdi = new Date().toLocaleDateString('tr-TR',{month:'long'});
+  const buAy = {S:0,L:0,T:0,O:0};
+  for (const h of S.hareketler) if ((h.tarih||'').startsWith(ay)) { const k = ({B:'S',A:'T'})[h.tur]||h.tur; if (k in buAy) buAy[k]+=h.tutar; }
   const q = S.q.toLocaleLowerCase('tr');
-  const shown = rows.filter(r => !q || (r.ad||'').toLocaleLowerCase('tr').includes(q) || (r.telefon||'').includes(q))
-                    .sort((a,b) => (a.ad||'').localeCompare(b.ad||'','tr'));
+  const f = S.filtre || 'tum';
+  const sayac = {tum:rows.length, borclu:rows.filter(r=>r.bak>0.004).length, alacakli:rows.filter(r=>r.bak<-0.004).length};
+  const shown = rows.filter(r => (!q || (r.ad||'').toLocaleLowerCase('tr').includes(q) || (r.telefon||'').includes(q))
+                      && (f==='tum' || (f==='borclu' && r.bak>0.004) || (f==='alacakli' && r.bak<-0.004)))
+                    .sort(f==='tum' ? (a,b) => (b.son||'').localeCompare(a.son||'') || (a.ad||'').localeCompare(b.ad||'','tr')
+                                    : (a,b) => Math.abs(b.bak)-Math.abs(a.bak));
   const gun = S.sonYedek ? Math.floor((Date.now()-S.sonYedek)/86400000) : null;
   const yedekUyari = S.hareketler.length > 0 && (gun===null || gun>=7);
+  const oran = (alacak+borc) > 0 ? Math.round(alacak/(alacak+borc)*100) : 50;
+  const harf = ad => (ad||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toLocaleUpperCase('tr');
+  const renkNo = id => [...String(id)].reduce((s,c)=>s+c.charCodeAt(0),0) % 6;
+  const tarihStr = new Date().toLocaleDateString('tr-TR',{day:'numeric',month:'long',weekday:'long'});
   app.innerHTML = `
-    <div class="top"><h1>Cari Defteri</h1><button class="icon-btn" id="menu">Yedek</button></div>
+    <header class="hero">
+      <div class="hero-top"><div><div class="hero-date">${tarihStr}</div><h1>Cari Defteri</h1></div><button class="icon-btn" id="menu">Yedek</button></div>
+      <div class="hero-net">
+        <small>Net durum</small>
+        <div class="hero-amt num">${net<-0.004?'−':''}${tl(Math.abs(net))} <span>₺</span></div>
+        <div class="hero-hint">${net>0.004?'Piyasadan alacağınız borcunuzdan fazla':net<-0.004?'Borcunuz alacağınızdan fazla':'Alacak ve borç dengede'}</div>
+      </div>
+      <div class="split" aria-hidden="true"><i style="width:${oran}%"></i></div>
+      <div class="hero-pair">
+        <div><span class="dot borc"></span>Alacağınız<b class="num">${tl(alacak)} ₺</b></div>
+        <div><span class="dot alacak"></span>Borcunuz<b class="num">${tl(borc)} ₺</b></div>
+      </div>
+    </header>
     ${yedekUyari ? `<div class="warn"><span>${gun===null?'Henüz yedek almadınız.':`Son yedek ${gun} gün önce.`} Telefon kaybolursa kayıtlar gider.</span><button class="btn sm" id="quickBackup">Yedek al</button></div>` : ''}
-    <div class="sum">
-      <div><small>Toplam alacağınız</small><span class="num c-borc">${tl(alacak)} ₺</span></div>
-      <div><small>Toplam borcunuz</small><span class="num c-alacak">${tl(borc)} ₺</span></div>
-      <div class="net"><small>Net durum</small><span class="num">${tl(alacak-borc)} ₺</span></div>
+    <section class="month">
+      <div class="month-h">${ayAdi.charAt(0).toLocaleUpperCase('tr')+ayAdi.slice(1)} ayı</div>
+      <div class="month-g">
+        <div><small>Satış</small><b class="num c-borc">${tl(buAy.S)}</b></div>
+        <div><small>Alış</small><b class="num c-alacak">${tl(buAy.L)}</b></div>
+        <div><small>Tahsilat</small><b class="num">${tl(buAy.T)}</b></div>
+        <div><small>Ödeme</small><b class="num">${tl(buAy.O)}</b></div>
+      </div>
+    </section>
+    <div class="search"><input id="q" type="search" placeholder="Cari ara (ad veya telefon)" value="${esc(S.q)}" autocomplete="off"></div>
+    <div class="chips" role="tablist">
+      <button class="chip ${f==='tum'?'on':''}" data-f="tum">Tümü <span>${sayac.tum}</span></button>
+      <button class="chip ${f==='borclu'?'on':''}" data-f="borclu">Borçlular <span>${sayac.borclu}</span></button>
+      <button class="chip ${f==='alacakli'?'on':''}" data-f="alacakli">Alacaklılar <span>${sayac.alacakli}</span></button>
     </div>
-    <input id="q" type="search" placeholder="Cari ara (ad veya telefon)" value="${esc(S.q)}" autocomplete="off">
     <div class="list">
       ${shown.length ? shown.map(r => { const [cls,lbl]=durum(r.bak); return `
         <button class="row" data-id="${esc(r.id)}">
-          <div class="main"><div class="name">${esc(r.ad)}</div><div class="sub">${esc(r.telefon||'')}${r.son?` · son işlem ${trDate(r.son)}`:''}</div></div>
+          <span class="av av${renkNo(r.id)}">${esc(harf(r.ad))}</span>
+          <div class="main"><div class="name">${esc(r.ad)}</div><div class="sub">${r.son?`Son işlem ${trDate(r.son)}`:'Henüz işlem yok'}${r.telefon?' · '+esc(r.telefon):''}</div></div>
           <div class="amt"><div class="num ${cls==='borc'?'c-borc':cls==='alacak'?'c-alacak':''}">${tl(Math.abs(r.bak))} ₺</div><span class="pill ${cls}">${lbl}</span></div>
         </button>`}).join('') :
-        `<div class="empty">${S.cariler.length ? 'Aramaya uyan cari yok.' : 'Henüz cari yok.<br>Alttaki <b>Yeni Cari</b> ile ilk müşteri veya tedarikçinizi ekleyin.'}</div>`}
+        `<div class="empty">${S.cariler.length ? 'Bu filtreye uyan cari yok.' : '<b>Henüz cari yok.</b><br>Alttaki <b>Yeni Cari</b> ile ilk müşteri veya tedarikçinizi ekleyin.'}</div>`}
     </div>
     <p class="note">Kırmızı: cari size borçlu · Yeşil: siz cariye borçlusunuz.<br>Kayıtlar yalnızca bu telefonda durur. Ara sıra <b>Yedek</b> alın.</p>`;
   $('#q').addEventListener('input', e => { S.q = e.target.value; const pos = e.target.selectionStart; renderList(app); const i=$('#q'); i.focus(); i.setSelectionRange(pos,pos); });
+  app.querySelectorAll('.chip').forEach(b => b.onclick = () => { S.filtre = b.dataset.f; renderList(app); });
   app.querySelectorAll('.row[data-id]').forEach(b => b.onclick = () => { S.view='detail'; S.cariId=b.dataset.id; window.scrollTo(0,0); render(); });
   $('#menu').onclick = yedekSheet;
   if ($('#quickBackup')) $('#quickBackup').onclick = yedekAl;
-  bar([['Yeni Cari','btn', () => cariSheet()]]);
+  bar([['+ Yeni Cari','btn', () => cariSheet()]]);
 }
 
 function renderDetail(app){
