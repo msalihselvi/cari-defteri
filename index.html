@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cari Defteri</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cari">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#1f5f4a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{
+  --bg:#f3f4f1; --card:#ffffff; --fg:#1d221f; --muted:#68716b; --line:#dfe2dc;
+  --accent:#1f5f4a; --accent-fg:#ffffff;
+  --borc:#b3261e; --borc-bg:#fbe9e7; --alacak:#1b6e3c; --alacak-bg:#e3f2e8;
+  --on-solid:#ffffff; --shade:rgba(20,25,22,.45); --warn-bg:#fff4d6; --warn:#7a5600;
+  --f-body:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;
+  --f-num:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#121614; --card:#1b201d; --fg:#e8ebe7; --muted:#9aa39c; --line:#2c332f;
+  --accent:#5fbf98; --accent-fg:#0c1210;
+  --borc:#ff8a80; --borc-bg:#3a1f1d; --alacak:#7fd6a0; --alacak-bg:#173025;
+  --on-solid:#0c1210; --shade:rgba(0,0,0,.6); --warn-bg:#3a3018; --warn:#f3cf75; color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{font-family:var(--f-body);font-size:16px;-webkit-tap-highlight-color:transparent;padding-top:env(safe-area-inset-top,0px)}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 130px}
+h1,h2{margin:0;font-weight:800;letter-spacing:-.01em}
+h1{font-size:1.55rem} h2{font-size:1.25rem}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:6px 12px}
+.sum{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.sum div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0}
+.sum small{display:block;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.sum .num{font-size:1.05rem;font-weight:600}
+.sum .net{grid-column:1/-1}
+.c-borc{color:var(--borc)} .c-alacak{color:var(--alacak)}
+input,textarea{font:inherit;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;font-size:16px}
+input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.list{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:10px}
+.row{display:flex;align-items:center;gap:10px;padding:13px 14px;border:0;border-bottom:1px solid var(--line);background:none;color:inherit;text-align:left;width:100%;font:inherit;cursor:pointer}
+.row:last-child{border-bottom:0}
+.row:active{background:var(--bg)}
+.row .main{flex:1;min-width:0}
+.row .name{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .sub{font-size:.8rem;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .amt{text-align:right;font-weight:600}
+.row .amt small{display:block;font-family:var(--f-body);font-size:.72rem;color:var(--muted);font-weight:500}
+.pill{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:99px;margin-top:3px}
+.pill.borc{background:var(--borc-bg);color:var(--borc)} .pill.alacak{background:var(--alacak-bg);color:var(--alacak)} .pill.kapali{background:var(--bg);color:var(--muted)}
+.empty{padding:28px 18px;text-align:center;color:var(--muted);line-height:1.5}
+.btn{font:inherit;font-weight:700;border:0;border-radius:12px;padding:13px 16px;cursor:pointer;background:var(--accent);color:var(--accent-fg)}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--line)}
+.btn.borc{background:var(--borc);color:var(--on-solid)} .btn.alacak{background:var(--alacak);color:var(--on-solid)}
+.btn.danger{background:transparent;color:var(--borc);border:1px solid var(--line)}
+.btn.sm{padding:8px 12px;font-size:.9rem}
+.back{background:none;border:0;color:var(--accent);font:inherit;font-weight:700;padding:8px 0;cursor:pointer}
+.head{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.head .bal{font-size:1.6rem;font-weight:600}
+.head .meta{color:var(--muted);font-size:.88rem;display:flex;flex-wrap:wrap;gap:4px 14px}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));z-index:5}
+.bar .in{max-width:640px;margin:0 auto;display:flex;gap:8px}
+.bar .btn{flex:1}
+.sheet-bg{position:fixed;inset:0;background:var(--shade);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--card);width:100%;max-width:640px;border-radius:18px 18px 0 0;padding:18px max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px;max-height:92vh;overflow:auto}
+.sheet label{display:flex;flex-direction:column;gap:5px;font-size:.85rem;color:var(--muted);font-weight:600}
+.sheet p{margin:0;line-height:1.5;color:var(--muted);font-size:.92rem}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.seg button{font:inherit;font-weight:700;padding:11px 8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--muted);cursor:pointer;font-size:.9rem}
+.seg button.on.borc{background:var(--borc-bg);color:var(--borc);border-color:var(--borc)}
+.seg button.on.alacak{background:var(--alacak-bg);color:var(--alacak);border-color:var(--alacak)}
+.big{font-family:var(--f-num);font-size:1.6rem !important;font-weight:600}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.actions .btn{flex:1}
+.err{color:var(--borc);font-size:.88rem;min-height:1em}
+.note{font-size:.82rem;color:var(--muted);text-align:center;margin-top:14px;line-height:1.5}
+.warn{background:var(--warn-bg);color:var(--warn);border-radius:12px;padding:10px 12px;font-size:.88rem;line-height:1.4;margin-bottom:10px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.warn .btn{flex:none}
+.icon-btn{background:var(--card);border:1px solid var(--line);color:var(--fg);border-radius:10px;padding:8px 12px;font:inherit;font-weight:600;font-size:.9rem;cursor:pointer}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:99px;font-weight:600;font-size:.9rem;z-index:30;max-width:90vw;text-align:center}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:up .18s ease-out}@keyframes up{from{transform:translateY(30px);opacity:.6}}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="bar" id="bar"><div class="in" id="barIn"></div></div>
+<div id="sheetHost"></div>
+<div class="toast" id="toast" hidden></div>
+<input type="file" id="importFile" accept=".json,application/json" hidden>
+
+<script>
+(() => {
+const KEY = 'cariDefteri.v1';
+const S = { cariler:[], hareketler:[], sonYedek:0, view:'list', cariId:null, q:'' };
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const tl = n => { const v = Math.round(Math.abs(n)*100)/100; return (n < -0.004 ? '-' : '') + v.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}); };
+const parseTL = s => { s = String(s).trim().replace(/\s|₺/g,''); if (!s) return NaN; if (s.includes(',')) s = s.replace(/\./g,'').replace(',','.'); else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g,''); return Number(s); };
+const today = () => { const d = new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const trDate = iso => iso ? iso.split('-').reverse().join('.') : '';
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+const toast = msg => { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(() => t.hidden = true, 2600); };
+
+// ---------- kalıcı kayıt (telefonun kendi hafızası)
+function load(){
+  try { const d = JSON.parse(localStorage.getItem(KEY) || 'null'); if (d) { S.cariler = d.cariler||[]; S.hareketler = d.hareketler||[]; S.sonYedek = d.sonYedek||0; } }
+  catch(e){ toast('Kayıtlar okunamadı'); }
+}
+function save(){
+  try { localStorage.setItem(KEY, JSON.stringify({cariler:S.cariler, hareketler:S.hareketler, sonYedek:S.sonYedek})); return true; }
+  catch(e){ toast('Kaydedilemedi: telefon hafızası dolu olabilir'); return false; }
+}
+try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch(e){}
+
+function bakiye(cid){ let b=0,a=0,son=''; for (const h of S.hareketler) if (h.cariId===cid){ if(h.tur==='B') b+=h.tutar; else a+=h.tutar; if(h.tarih>son) son=h.tarih; } return {bak:b-a, son}; }
+function durum(bak){ return bak>0.004 ? ['borc','Borçlu'] : bak<-0.004 ? ['alacak','Alacaklı'] : ['kapali','Kapalı']; }
+
+function render(){
+  if (S.view==='detail' && !S.cariler.find(c=>c.id===S.cariId)) S.view='list';
+  S.view==='list' ? renderList($('#app')) : renderDetail($('#app'));
+}
+
+function renderList(app){
+  let alacak=0, borc=0;
+  const rows = S.cariler.map(c => ({...c, ...bakiye(c.id)}));
+  rows.forEach(r => { if (r.bak>0) alacak+=r.bak; else borc-=r.bak; });
+  const q = S.q.toLocaleLowerCase('tr');
+  const shown = rows.filter(r => !q || (r.ad||'').toLocaleLowerCase('tr').includes(q) || (r.telefon||'').includes(q))
+                    .sort((a,b) => (a.ad||'').localeCompare(b.ad||'','tr'));
+  const gun = S.sonYedek ? Math.floor((Date.now()-S.sonYedek)/86400000) : null;
+  const yedekUyari = S.hareketler.length > 0 && (gun===null || gun>=7);
+  app.innerHTML = `
+    <div class="top"><h1>Cari Defteri</h1><button class="icon-btn" id="menu">Yedek</button></div>
+    ${yedekUyari ? `<div class="warn"><span>${gun===null?'Henüz yedek almadınız.':`Son yedek ${gun} gün önce.`} Telefon kaybolursa kayıtlar gider.</span><button class="btn sm" id="quickBackup">Yedek al</button></div>` : ''}
+    <div class="sum">
+      <div><small>Toplam alacağınız</small><span class="num c-borc">${tl(alacak)} ₺</span></div>
+      <div><small>Toplam borcunuz</small><span class="num c-alacak">${tl(borc)} ₺</span></div>
+      <div class="net"><small>Net durum</small><span class="num">${tl(alacak-borc)} ₺</span></div>
+    </div>
+    <input id="q" type="search" placeholder="Cari ara (ad veya telefon)" value="${esc(S.q)}" autocomplete="off">
+    <div class="list">
+      ${shown.length ? shown.map(r => { const [cls,lbl]=durum(r.bak); return `
+        <button class="row" data-id="${esc(r.id)}">
+          <div class="main"><div class="name">${esc(r.ad)}</div><div class="sub">${esc(r.telefon||'')}${r.son?` · son işlem ${trDate(r.son)}`:''}</div></div>
+          <div class="amt"><div class="num ${cls==='borc'?'c-borc':cls==='alacak'?'c-alacak':''}">${tl(Math.abs(r.bak))} ₺</div><span class="pill ${cls}">${lbl}</span></div>
+        </button>`}).join('') :
+        `<div class="empty">${S.cariler.length ? 'Aramaya uyan cari yok.' : 'Henüz cari yok.<br>Alttaki <b>Yeni Cari</b> ile ilk müşteri veya tedarikçinizi ekleyin.'}</div>`}
+    </div>
+    <p class="note">Kırmızı: cari size borçlu · Yeşil: siz cariye borçlusunuz.<br>Kayıtlar yalnızca bu telefonda durur. Ara sıra <b>Yedek</b> alın.</p>`;
+  $('#q').addEventListener('input', e => { S.q = e.target.value; const pos = e.target.selectionStart; renderList(app); const i=$('#q'); i.focus(); i.setSelectionRange(pos,pos); });
+  app.querySelectorAll('.row[data-id]').forEach(b => b.onclick = () => { S.view='detail'; S.cariId=b.dataset.id; window.scrollTo(0,0); render(); });
+  $('#menu').onclick = yedekSheet;
+  if ($('#quickBackup')) $('#quickBackup').onclick = yedekAl;
+  bar([['Yeni Cari','btn', () => cariSheet()]]);
+}
+
+function renderDetail(app){
+  const c = S.cariler.find(x=>x.id===S.cariId);
+  const hs = S.hareketler.filter(h=>h.cariId===c.id).sort((a,b)=> a.tarih===b.tarih ? (a.olusturma||0)-(b.olusturma||0) : a.tarih<b.tarih?-1:1);
+  let run=0; const withRun = hs.map(h => { run += h.tur==='B'?h.tutar:-h.tutar; return {...h, run}; });
+  const [cls,lbl] = durum(run);
+  app.innerHTML = `
+    <button class="back" id="back">‹ Cariler</button>
+    <div class="head">
+      <h2>${esc(c.ad)}</h2>
+      <div class="meta">${c.telefon?`<span>☎ ${esc(c.telefon)}</span>`:''}${c.adres?`<span>${esc(c.adres)}</span>`:''}</div>
+      ${c.notlar?`<div class="meta">${esc(c.notlar)}</div>`:''}
+      <div><span class="bal num ${cls==='borc'?'c-borc':cls==='alacak'?'c-alacak':''}">${tl(Math.abs(run))} ₺</span> <span class="pill ${cls}">${lbl}</span></div>
+      <div class="tools">
+        <button class="btn ghost sm" id="edit">Cariyi düzenle</button>
+        <button class="btn ghost sm" id="share">Ekstre gönder</button>
+      </div>
+    </div>
+    <div class="list">
+      ${withRun.length ? withRun.slice().reverse().map(h => `
+        <button class="row" data-h="${esc(h.id)}">
+          <div class="main"><div class="name">${esc(h.aciklama || (h.tur==='B'?'Borç':'Tahsilat'))}</div><div class="sub">${trDate(h.tarih)} · <span class="${h.tur==='B'?'c-borc':'c-alacak'}">${h.tur==='B'?'Borç':'Tahsilat / Ödeme'}</span></div></div>
+          <div class="amt"><div class="num ${h.tur==='B'?'c-borc':'c-alacak'}">${h.tur==='B'?'+':'−'}${tl(h.tutar)}</div><small class="num">bakiye ${tl(h.run)}</small></div>
+        </button>`).join('') : `<div class="empty">Bu caride hareket yok.<br>Satış/veresiye için <b>Borç</b>, ödeme aldığınızda <b>Tahsilat</b> girin.</div>`}
+    </div>`;
+  $('#back').onclick = () => { S.view='list'; render(); };
+  $('#edit').onclick = () => cariSheet(c);
+  $('#share').onclick = () => ekstreGonder(c, withRun);
+  app.querySelectorAll('[data-h]').forEach(b => b.onclick = () => hareketSheet(c.id, S.hareketler.find(h=>h.id===b.dataset.h)));
+  bar([['+ Borç','btn borc', () => hareketSheet(c.id,null,'B')], ['+ Tahsilat','btn alacak', () => hareketSheet(c.id,null,'A')]]);
+}
+
+function bar(btns){
+  const i = $('#barIn'); i.innerHTML='';
+  btns.forEach(([t,cls,fn]) => { const x=document.createElement('button'); x.className=cls; x.textContent=t; x.onclick=fn; i.appendChild(x); });
+}
+
+function sheet(html, onMount){
+  const host = $('#sheetHost');
+  host.innerHTML = `<div class="sheet-bg" id="sbg"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;
+  const close = () => { host.innerHTML=''; render(); };
+  $('#sbg').addEventListener('click', e => { if (e.target.id==='sbg') close(); });
+  onMount(close);
+}
+
+function cariSheet(c){
+  sheet(`
+    <h2>${c?'Cariyi düzenle':'Yeni cari'}</h2>
+    <label>Ad / Unvan<input id="f-ad" value="${esc(c?.ad)}" autocomplete="off"></label>
+    <label>Telefon<input id="f-tel" type="tel" value="${esc(c?.telefon)}"></label>
+    <label>Adres<input id="f-adres" value="${esc(c?.adres)}"></label>
+    <label>Not<textarea id="f-not" rows="2">${esc(c?.notlar)}</textarea></label>
+    <div class="err" id="f-err"></div>
+    <div class="actions"><button class="btn ghost" id="f-cancel">Vazgeç</button><button class="btn" id="f-save">Kaydet</button></div>
+    ${c?`<div class="actions" id="delWrap"><button class="btn danger" id="f-del">Cariyi sil</button></div>`:''}`, close => {
+    if (!c) $('#f-ad').focus();
+    $('#f-cancel').onclick = close;
+    $('#f-save').onclick = () => {
+      const ad = $('#f-ad').value.trim();
+      if (!ad) { $('#f-err').textContent='Ad / unvan yazın.'; return; }
+      const body = { ad, telefon:$('#f-tel').value.trim(), adres:$('#f-adres').value.trim(), notlar:$('#f-not').value.trim() };
+      if (c) Object.assign(c, body);
+      else { const n = {id:uid(), ...body, olusturma:Date.now()}; S.cariler.push(n); S.view='detail'; S.cariId=n.id; }
+      if (save()) { close(); toast('Kaydedildi'); }
+    };
+    if (c) $('#f-del').onclick = () => {
+      const n = S.hareketler.filter(h=>h.cariId===c.id).length;
+      $('#delWrap').innerHTML = `<div style="width:100%;display:flex;flex-direction:column;gap:8px"><div class="err">“${esc(c.ad)}” ve ${n} hareketi silinecek. Geri alınamaz.</div><button class="btn borc" id="f-del2">Evet, sil</button></div>`;
+      $('#f-del2').onclick = () => {
+        S.hareketler = S.hareketler.filter(h=>h.cariId!==c.id);
+        S.cariler = S.cariler.filter(x=>x.id!==c.id);
+        S.view='list'; if (save()) { close(); toast('Cari silindi'); }
+      };
+    };
+  });
+}
+
+function hareketSheet(cariId, h, tur){
+  let t = h ? h.tur : tur;
+  sheet(`
+    <h2>${h?'Hareketi düzenle':'Yeni hareket'}</h2>
+    <div class="seg"><button class="borc" data-t="B">Borç<br><small style="font-weight:500">satış / veresiye</small></button><button class="alacak" data-t="A">Tahsilat<br><small style="font-weight:500">ödeme alındı / alış</small></button></div>
+    <label>Tutar (₺)<input id="f-tutar" class="big" inputmode="decimal" placeholder="0,00" value="${h?tl(h.tutar):''}" autocomplete="off"></label>
+    <label>Açıklama<input id="f-acik" value="${esc(h?.aciklama)}" placeholder="örn. 2 ton yem, nakit ödeme" autocomplete="off"></label>
+    <label>Tarih<input id="f-tarih" type="date" value="${h?h.tarih:today()}"></label>
+    <div class="err" id="f-err"></div>
+    <div class="actions"><button class="btn ghost" id="f-cancel">Vazgeç</button><button class="btn" id="f-save">Kaydet</button></div>
+    ${h?`<div class="actions" id="delWrap"><button class="btn danger" id="f-del">Hareketi sil</button></div>`:''}`, close => {
+    const seg = () => document.querySelectorAll('.seg button').forEach(b => b.classList.toggle('on', b.dataset.t===t));
+    document.querySelectorAll('.seg button').forEach(b => b.onclick = () => { t=b.dataset.t; seg(); }); seg();
+    if (!h) $('#f-tutar').focus();
+    $('#f-cancel').onclick = close;
+    $('#f-save').onclick = () => {
+      const tutar = parseTL($('#f-tutar').value), tarih = $('#f-tarih').value;
+      if (!(tutar>0)) { $('#f-err').textContent='Sıfırdan büyük bir tutar yazın (örn. 1.250,50).'; return; }
+      if (!tarih) { $('#f-err').textContent='Tarih seçin.'; return; }
+      const body = { cariId, tur:t, tutar:Math.round(tutar*100)/100, aciklama:$('#f-acik').value.trim(), tarih };
+      if (h) Object.assign(h, body); else S.hareketler.push({id:uid(), ...body, olusturma:Date.now()});
+      if (save()) { close(); toast('Kaydedildi'); }
+    };
+    if (h) $('#f-del').onclick = () => {
+      $('#delWrap').innerHTML = `<button class="btn borc" id="f-del2" style="flex:1">Evet, bu hareketi sil</button>`;
+      $('#f-del2').onclick = () => { S.hareketler = S.hareketler.filter(x=>x.id!==h.id); if (save()) { close(); toast('Silindi'); } };
+    };
+  });
+}
+
+// ---------- paylaşım / yedek
+async function paylas({text, file, title}){
+  try {
+    if (file && navigator.canShare && navigator.canShare({files:[file]})) { await navigator.share({files:[file], title}); return 'ok'; }
+    if (text && navigator.share) { await navigator.share({text, title}); return 'ok'; }
+  } catch(e){ if (e && e.name==='AbortError') return 'iptal'; }
+  if (file) { const a=document.createElement('a'); a.href=URL.createObjectURL(file); a.download=file.name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},1000); return 'ok'; }
+  try { await navigator.clipboard.writeText(text); toast('Ekstre kopyalandı'); return 'ok'; } catch(e){ return 'hata'; }
+}
+
+function ekstreGonder(c, rows){
+  const lines = [`${c.ad} – Hesap Ekstresi (${trDate(today())})`, ''];
+  rows.forEach(h => lines.push(`${trDate(h.tarih)}  ${h.tur==='B'?'Borç':'Tahsilat'}  ${tl(h.tutar)} ₺  ${h.aciklama||''}`.trim()));
+  const son = rows.length ? rows[rows.length-1].run : 0;
+  lines.push('', `Güncel bakiye: ${tl(Math.abs(son))} ₺ ${son>0.004?'(borçlu)':son<-0.004?'(alacaklı)':'(kapalı)'}`);
+  paylas({text: lines.join('\n'), title:'Ekstre'});
+}
+
+async function yedekAl(){
+  const d = new Date(), stamp = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const data = JSON.stringify({uygulama:'CariDefteri', surum:1, tarih:new Date().toISOString(), cariler:S.cariler, hareketler:S.hareketler}, null, 1);
+  const file = new File([data], `cari-yedek-${stamp}.json`, {type:'application/json'});
+  const r = await paylas({file, title:'Cari yedeği'});
+  if (r==='ok') { S.sonYedek = Date.now(); save(); render(); toast('Yedek hazır. Dosyalar\'a veya WhatsApp\'a kaydedin.'); }
+}
+
+function yedekSheet(){
+  const tarih = S.sonYedek ? new Date(S.sonYedek).toLocaleDateString('tr-TR') : 'hiç alınmadı';
+  sheet(`
+    <h2>Yedek</h2>
+    <p>Kayıtlar yalnızca bu telefonda durur. Yedek dosyasını <b>Dosyalar</b>'a, iCloud'a veya kendinize WhatsApp ile gönderin. Telefon değişirse aynı dosyayı geri yükleyebilirsiniz.</p>
+    <p>Son yedek: <b>${tarih}</b> · ${S.cariler.length} cari, ${S.hareketler.length} hareket</p>
+    <button class="btn" id="b-al">Yedek al</button>
+    <button class="btn ghost" id="b-yukle">Yedekten geri yükle</button>
+    <div class="err" id="f-err"></div>
+    <button class="btn ghost" id="f-cancel">Kapat</button>`, close => {
+    $('#f-cancel').onclick = close;
+    $('#b-al').onclick = async () => { await yedekAl(); };
+    $('#b-yukle').onclick = () => { const f=$('#importFile'); f.value=''; f.onchange = () => yukleDosya(f.files[0], close); f.click(); };
+  });
+}
+
+function yukleDosya(file, close){
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    let d; try { d = JSON.parse(r.result); } catch(e){ $('#f-err').textContent='Bu dosya bir Cari Defteri yedeği değil.'; return; }
+    if (!d || !Array.isArray(d.cariler) || !Array.isArray(d.hareketler)) { $('#f-err').textContent='Bu dosya bir Cari Defteri yedeği değil.'; return; }
+    const err = $('#f-err');
+    err.innerHTML = `Yedekte ${d.cariler.length} cari, ${d.hareketler.length} hareket var. Şu anki kayıtların <b>yerine</b> geçecek.<br><button class="btn borc" id="b-onay" style="margin-top:8px;width:100%">Evet, geri yükle</button>`;
+    $('#b-onay').onclick = () => { S.cariler=d.cariler; S.hareketler=d.hareketler; S.view='list'; if (save()) { close(); toast('Yedek geri yüklendi'); } };
+  };
+  r.readAsText(file);
+}
+
+load(); render();
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(()=>{});
+})();
+</script>
+</body>
+</html>
