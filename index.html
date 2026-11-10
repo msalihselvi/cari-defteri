@@ -99,7 +99,8 @@ input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--accent);
 .month-g div{min-width:0}
 .month-g small{display:block;font-size:.72rem;color:var(--muted)}
 .month-g b{font-size:.92rem;font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis}
-.chips{display:flex;gap:6px;margin-top:10px;overflow-x:auto}
+.chips{display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
 .chip{flex:none;font:inherit;font-size:.88rem;font-weight:600;padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
 .chip span{color:var(--muted);font-weight:500;margin-left:2px}
 .chip.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
@@ -110,6 +111,39 @@ input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--accent);
 @media (prefers-color-scheme:dark){.av0{background:#1e3a30;color:#9fdcc0}.av1{background:#3d2d1b;color:#f0c08e}.av2{background:#262c45;color:#b6c2f0}
 .av3{background:#3c2430;color:#f0b3cc}.av4{background:#2f3a1a;color:#c9e08e}.av5{background:#1b3639;color:#9fd8e0}}
 @media (max-width:360px){.month-g{grid-template-columns:repeat(2,1fr)}.hero-amt{font-size:1.9rem}}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.qbtn{font:inherit;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;color:var(--fg);cursor:pointer;display:flex;flex-direction:column;gap:2px;min-width:0}
+.qbtn b{font-size:.95rem}
+.qbtn small{color:var(--muted);font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qbtn:active{background:var(--bg)}
+.vade-warn{width:100%;font:inherit;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--borc-bg);color:var(--borc);border:1px solid var(--borc);border-radius:14px;padding:11px 14px;margin-bottom:12px;line-height:1.35;font-size:.9rem;cursor:pointer}
+.vade-warn.sen{background:var(--warn-bg);color:var(--warn);border-color:var(--warn);cursor:default}
+.vw-go{font-weight:700;white-space:nowrap}
+.chip-red{color:var(--borc);border-color:var(--borc)}
+.chip-red.on{background:var(--borc);border-color:var(--borc);color:var(--on-solid)}
+.pill.gec{background:var(--borc);color:var(--on-solid)}
+.pill.yakin{background:var(--warn-bg);color:var(--warn)}
+.vade-line{font-size:.88rem;color:var(--borc);background:var(--borc-bg);border-radius:10px;padding:8px 10px}
+.vade-line.yakin{color:var(--warn);background:var(--warn-bg)}
+.vade-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:-4px}
+.vade-chips button{font:inherit;font-size:.85rem;font-weight:600;padding:6px 11px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.r-range{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.r-range label{min-width:0}
+.r-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.r-grid div{background:var(--bg);border-radius:12px;padding:10px 12px;min-width:0}
+.r-grid small{display:block;font-size:.75rem;color:var(--muted);margin-bottom:2px}
+.r-grid b{font-size:1.05rem;font-weight:600}
+.r-kasa{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-weight:700}
+.r-kasa small{font-weight:500;color:var(--muted);font-size:.75rem}
+.r-kasa b{font-size:1.35rem}
+.r-h{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.r-list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.r-list > div,.u-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);font-size:.9rem}
+.r-list > div:last-child,.u-row:last-child{border-bottom:0}
+.r-list span{min-width:0}
+.r-list small{display:block;color:var(--muted);font-size:.75rem}
+.r-list .num small{display:inline;color:var(--muted)}
+.u-row{width:100%;font:inherit;background:none;border-left:0;border-right:0;border-top:0;color:var(--fg);text-align:left;cursor:pointer}
 .kalemler{display:flex;flex-direction:column;gap:10px}
 .kalem{display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
 .k-row{display:flex;align-items:center;gap:6px}
@@ -142,7 +176,7 @@ input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--accent);
 <script>
 (() => {
 const KEY = 'cariDefteri.v1';
-const S = { cariler:[], hareketler:[], sonYedek:0, view:'list', cariId:null, q:'' };
+const S = { cariler:[], hareketler:[], urunler:[], sonYedek:0, view:'list', cariId:null, q:'' };
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const tl = n => { const v = Math.round(Math.abs(n)*100)/100; return (n < -0.004 ? '-' : '') + v.toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}); };
@@ -154,11 +188,11 @@ const toast = msg => { const t = $('#toast'); t.textContent = msg; t.hidden = fa
 
 // ---------- kalıcı kayıt (telefonun kendi hafızası)
 function load(){
-  try { const d = JSON.parse(localStorage.getItem(KEY) || 'null'); if (d) { S.cariler = d.cariler||[]; S.hareketler = d.hareketler||[]; S.sonYedek = d.sonYedek||0; } }
+  try { const d = JSON.parse(localStorage.getItem(KEY) || 'null'); if (d) { S.cariler = d.cariler||[]; S.hareketler = d.hareketler||[]; S.urunler = d.urunler||[]; S.sonYedek = d.sonYedek||0; } }
   catch(e){ toast('Kayıtlar okunamadı'); }
 }
 function save(){
-  try { localStorage.setItem(KEY, JSON.stringify({cariler:S.cariler, hareketler:S.hareketler, sonYedek:S.sonYedek})); return true; }
+  try { localStorage.setItem(KEY, JSON.stringify({cariler:S.cariler, hareketler:S.hareketler, urunler:S.urunler, sonYedek:S.sonYedek})); return true; }
   catch(e){ toast('Kaydedilemedi: telefon hafızası dolu olabilir'); return false; }
 }
 try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch(e){}
@@ -173,6 +207,38 @@ const TUR = {
 const tur = h => TUR[h.tur] || TUR.S;
 const sayi = n => (Math.round(n*1000)/1000).toLocaleString('tr-TR',{maximumFractionDigits:3});
 function bakiye(cid){ let bak=0,son=''; for (const h of S.hareketler) if (h.cariId===cid){ bak += tur(h).isaret*h.tutar; if(h.tarih>son) son=h.tarih; } return {bak, son}; }
+const gunEkle = (iso, n) => { const d = new Date(iso+'T12:00:00'); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+const gunFark = (a, b) => Math.round((new Date(a+'T12:00:00') - new Date(b+'T12:00:00'))/86400000);
+// Ödemeler en eski satışı kapatır: kalan bakiye en yeni satışlardan oluşur.
+// Bu ödenmemiş kısımda vadesi geçmiş / 3 gün içinde dolacak tutarları bulur.
+function vadeDurum(cid){
+  const {bak} = bakiye(cid);
+  const sonuc = {gecikmis:0, yakin:0, enEskiVade:'', yon: bak>0.004 ? 'alacak' : bak<-0.004 ? 'borc' : ''};
+  if (!sonuc.yon) return sonuc;
+  const turler = sonuc.yon==='alacak' ? ['S','B'] : ['L'];
+  const hs = S.hareketler.filter(h=>h.cariId===cid && turler.includes(h.tur))
+    .sort((a,b)=> a.tarih===b.tarih ? (b.olusturma||0)-(a.olusturma||0) : a.tarih<b.tarih?1:-1);
+  let kalan = Math.abs(bak); const bugun = today();
+  for (const h of hs) {
+    if (kalan <= 0.004) break;
+    const pay = Math.min(kalan, h.tutar); kalan -= pay;
+    if (!h.vade) continue;
+    const f = gunFark(h.vade, bugun);
+    if (f < 0) { sonuc.gecikmis += pay; if (!sonuc.enEskiVade || h.vade < sonuc.enEskiVade) sonuc.enEskiVade = h.vade; }
+    else if (f <= 3) sonuc.yakin += pay;
+  }
+  return sonuc;
+}
+const normAd = s => String(s||'').trim().toLocaleLowerCase('tr');
+function urunOgren(kalemler, t){
+  const alan = (t==='L') ? 'alisFiyat' : 'satisFiyat';
+  for (const k of kalemler) {
+    if (!k.ad) continue;
+    let u = S.urunler.find(x => normAd(x.ad)===normAd(k.ad));
+    if (!u) { u = {id:uid(), ad:k.ad}; S.urunler.push(u); }
+    u[alan] = k.fiyat; u.son = Date.now();
+  }
+}
 function durum(bak){ return bak>0.004 ? ['borc','Borçlu'] : bak<-0.004 ? ['alacak','Alacaklı'] : ['kapali','Kapalı']; }
 
 function render(){
@@ -199,12 +265,18 @@ function renderList(app){
   const gun = S.sonYedek ? Math.floor((Date.now()-S.sonYedek)/86400000) : null;
   const yedekUyari = S.hareketler.length > 0 && (gun===null || gun>=7);
   const oran = (alacak+borc) > 0 ? Math.round(alacak/(alacak+borc)*100) : 50;
+  const vd = {}; rows.forEach(r => vd[r.id] = vadeDurum(r.id));
+  const vadeGec = rows.filter(r => vd[r.id].yon==='alacak' && vd[r.id].gecikmis>0.004);
+  const vadeGecTop = vadeGec.reduce((s,r)=>s+vd[r.id].gecikmis,0);
+  const vadeBorc = rows.filter(r => vd[r.id].yon==='borc' && vd[r.id].gecikmis>0.004);
+  const vadeBorcTop = vadeBorc.reduce((s,r)=>s+vd[r.id].gecikmis,0);
+  if (f==='vade') { shown.length = 0; rows.filter(r=>vd[r.id].gecikmis>0.004).sort((a,b)=>vd[b.id].gecikmis-vd[a.id].gecikmis).forEach(r=>shown.push(r)); }
   const harf = ad => (ad||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toLocaleUpperCase('tr');
   const renkNo = id => [...String(id)].reduce((s,c)=>s+c.charCodeAt(0),0) % 6;
   const tarihStr = new Date().toLocaleDateString('tr-TR',{day:'numeric',month:'long',weekday:'long'});
   app.innerHTML = `
     <header class="hero">
-      <div class="hero-top"><div><div class="hero-date">${tarihStr}</div><h1>Cari Defteri</h1></div><button class="icon-btn" id="menu">Yedek</button></div>
+      <div class="hero-top"><div><div class="hero-date">${tarihStr}</div><h1>Cari Defteri</h1></div></div>
       <div class="hero-net">
         <small>Net durum</small>
         <div class="hero-amt num">${net<-0.004?'−':''}${tl(Math.abs(net))} <span>₺</span></div>
@@ -216,6 +288,13 @@ function renderList(app){
         <div><span class="dot alacak"></span>Borcunuz<b class="num">${tl(borc)} ₺</b></div>
       </div>
     </header>
+    <nav class="quick">
+      <button class="qbtn" id="q-rapor"><b>Rapor</b><small>günlük · aylık</small></button>
+      <button class="qbtn" id="q-urun"><b>Ürünler</b><small>${S.urunler.length} kayıtlı</small></button>
+      <button class="qbtn" id="menu"><b>Yedek</b><small>${S.sonYedek ? new Date(S.sonYedek).toLocaleDateString('tr-TR',{day:'numeric',month:'short'}) : 'alınmadı'}</small></button>
+    </nav>
+    ${vadeGec.length ? `<button class="vade-warn" id="vadeFiltre"><span><b>Vadesi geçen ${vadeGec.length} cari</b><br>Toplam ${tl(vadeGecTop)} ₺ gecikmiş alacak</span><span class="vw-go">Göster ›</span></button>` : ''}
+    ${vadeBorc.length ? `<div class="vade-warn sen"><span><b>Ödemeniz gecikti: ${vadeBorc.length} cari</b><br>Toplam ${tl(vadeBorcTop)} ₺</span></div>` : ''}
     ${yedekUyari ? `<div class="warn"><span>${gun===null?'Henüz yedek almadınız.':`Son yedek ${gun} gün önce.`} Telefon kaybolursa kayıtlar gider.</span><button class="btn sm" id="quickBackup">Yedek al</button></div>` : ''}
     <section class="month">
       <div class="month-h">${ayAdi.charAt(0).toLocaleUpperCase('tr')+ayAdi.slice(1)} ayı</div>
@@ -231,13 +310,14 @@ function renderList(app){
       <button class="chip ${f==='tum'?'on':''}" data-f="tum">Tümü <span>${sayac.tum}</span></button>
       <button class="chip ${f==='borclu'?'on':''}" data-f="borclu">Borçlular <span>${sayac.borclu}</span></button>
       <button class="chip ${f==='alacakli'?'on':''}" data-f="alacakli">Alacaklılar <span>${sayac.alacakli}</span></button>
+      ${vadeGec.length+vadeBorc.length ? `<button class="chip ${f==='vade'?'on':''} chip-red" data-f="vade">Vadesi geçen <span>${vadeGec.length+vadeBorc.length}</span></button>` : ''}
     </div>
     <div class="list">
       ${shown.length ? shown.map(r => { const [cls,lbl]=durum(r.bak); return `
         <button class="row" data-id="${esc(r.id)}">
           <span class="av av${renkNo(r.id)}">${esc(harf(r.ad))}</span>
           <div class="main"><div class="name">${esc(r.ad)}</div><div class="sub">${r.son?`Son işlem ${trDate(r.son)}`:'Henüz işlem yok'}${r.telefon?' · '+esc(r.telefon):''}</div></div>
-          <div class="amt"><div class="num ${cls==='borc'?'c-borc':cls==='alacak'?'c-alacak':''}">${tl(Math.abs(r.bak))} ₺</div><span class="pill ${cls}">${lbl}</span></div>
+          <div class="amt"><div class="num ${cls==='borc'?'c-borc':cls==='alacak'?'c-alacak':''}">${tl(Math.abs(r.bak))} ₺</div>${vd[r.id].gecikmis>0.004 ? `<span class="pill gec">${gunFark(today(), vd[r.id].enEskiVade)} gün gecikti</span>` : vd[r.id].yakin>0.004 ? `<span class="pill yakin">Vade yakın</span>` : `<span class="pill ${cls}">${lbl}</span>`}</div>
         </button>`}).join('') :
         `<div class="empty">${S.cariler.length ? 'Bu filtreye uyan cari yok.' : '<b>Henüz cari yok.</b><br>Alttaki <b>Yeni Cari</b> ile ilk müşteri veya tedarikçinizi ekleyin.'}</div>`}
     </div>
@@ -247,6 +327,9 @@ function renderList(app){
   app.querySelectorAll('.row[data-id]').forEach(b => b.onclick = () => { S.view='detail'; S.cariId=b.dataset.id; window.scrollTo(0,0); render(); });
   $('#menu').onclick = yedekSheet;
   if ($('#quickBackup')) $('#quickBackup').onclick = yedekAl;
+  $('#q-rapor').onclick = () => raporSheet();
+  $('#q-urun').onclick = () => urunlerSheet();
+  if ($('#vadeFiltre')) $('#vadeFiltre').onclick = () => { S.filtre='vade'; renderList(app); };
   bar([['+ Yeni Cari','btn', () => cariSheet()]]);
 }
 
@@ -256,6 +339,7 @@ function renderDetail(app){
   let run=0; const withRun = hs.map(h => { run += tur(h).isaret*h.tutar; return {...h, run}; });
   const kalemOzet = h => (h.kalemler||[]).map(k => `${esc(k.ad||'')} ${sayi(k.miktar)} × ${tl(k.fiyat)}`.trim()).join(' · ');
   const [cls,lbl] = durum(run);
+  const vdc = vadeDurum(c.id);
   app.innerHTML = `
     <button class="back" id="back">‹ Cariler</button>
     <div class="head">
@@ -263,6 +347,7 @@ function renderDetail(app){
       <div class="meta">${c.telefon?`<span>☎ ${esc(c.telefon)}</span>`:''}${c.adres?`<span>${esc(c.adres)}</span>`:''}</div>
       ${c.notlar?`<div class="meta">${esc(c.notlar)}</div>`:''}
       <div><span class="bal num ${cls==='borc'?'c-borc':cls==='alacak'?'c-alacak':''}">${tl(Math.abs(run))} ₺</span> <span class="pill ${cls}">${lbl}</span></div>
+      ${vdc.gecikmis>0.004 ? `<div class="vade-line">${vdc.yon==='alacak'?'Vadesi geçen alacak':'Vadesi geçen borcunuz'}: <b class="num">${tl(vdc.gecikmis)} ₺</b> · ${gunFark(today(), vdc.enEskiVade)} gün gecikti</div>` : vdc.yakin>0.004 ? `<div class="vade-line yakin">3 gün içinde vadesi dolacak: <b class="num">${tl(vdc.yakin)} ₺</b></div>` : ''}
       <div class="tools">
         <button class="btn ghost sm" id="edit">Cariyi düzenle</button>
         <button class="btn ghost sm" id="share">Ekstre gönder</button>
@@ -272,7 +357,7 @@ function renderDetail(app){
     <div class="list">
       ${withRun.length ? withRun.slice().reverse().map(h => `
         <button class="row" data-h="${esc(h.id)}">
-          <div class="main"><div class="name">${esc(h.aciklama || kalemOzet(h) || tur(h).ad)}</div><div class="sub">${trDate(h.tarih)} · <span class="${tur(h).renk}">${tur(h).ad}</span>${h.aciklama && kalemOzet(h) ? ' · '+kalemOzet(h) : ''}</div></div>
+          <div class="main"><div class="name">${esc(h.aciklama || kalemOzet(h) || tur(h).ad)}</div><div class="sub">${trDate(h.tarih)} · <span class="${tur(h).renk}">${tur(h).ad}</span>${h.aciklama && kalemOzet(h) ? ' · '+kalemOzet(h) : ''}${h.vade ? ` · <span class="${h.vade<today()?'c-borc':''}">vade ${trDate(h.vade)}</span>` : ''}</div></div>
           <div class="amt"><div class="num ${tur(h).renk}">${tur(h).isaret>0?'+':'−'}${tl(h.tutar)}</div><small class="num">bakiye ${tl(h.run)}</small></div>
         </button>`).join('') : `<div class="empty">Bu caride hareket yok.<br>Sattığınızda <b>Satış</b>, aldığınızda <b>Alış</b> girin.<br>Para alıp verdiğinizde <b>Para al / ver</b>'i kullanın.</div>`}
     </div>`;
@@ -346,6 +431,9 @@ function hareketSheet(cariId, h, yeniTur){
       <div id="kalemler" class="kalemler"></div>
       <button class="btn ghost sm" id="k-ekle">+ Kalem ekle</button>
       <div class="toplam"><span>Toplam</span><span class="num" id="k-toplam">0,00 ₺</span></div>
+      <datalist id="urunList">${S.urunler.slice().sort((a,b)=>(b.son||0)-(a.son||0)).map(u=>`<option value="${esc(u.ad)}"></option>`).join('')}</datalist>
+      <label>Vade (isteğe bağlı)<input id="f-vade" type="date" value="${h?.vade||''}"></label>
+      <div class="vade-chips"><button type="button" data-g="0">Peşin</button><button type="button" data-g="7">7 gün</button><button type="button" data-g="15">15 gün</button><button type="button" data-g="30">30 gün</button><button type="button" data-g="60">60 gün</button></div>
       <label>Not (isteğe bağlı)<input id="f-acik" value="${esc(h?.aciklama && h.kalemler ? h.aciklama : '')}" placeholder="örn. fatura no, teslim yeri" autocomplete="off"></label>`
     : `
       <label>Tutar (₺)<input id="f-tutar" class="big" inputmode="decimal" placeholder="0,00" value="${h?tl(h.tutar):''}" autocomplete="off"></label>
@@ -366,7 +454,7 @@ function hareketSheet(cariId, h, yeniTur){
     const ciz = () => {
       $('#kalemler').innerHTML = kalemler.map((k,i) => `
         <div class="kalem" data-i="${i}">
-          <input class="k-ad" placeholder="Ürün / malzeme" value="${esc(k.ad)}" autocomplete="off" aria-label="Ürün">
+          <input class="k-ad" list="urunList" placeholder="Ürün / malzeme" value="${esc(k.ad)}" autocomplete="off" aria-label="Ürün">
           <div class="k-row">
             <input class="k-miktar num" inputmode="decimal" placeholder="Adet" value="${k.miktar===''?'':esc(typeof k.miktar==='number'?sayi(k.miktar):k.miktar)}" aria-label="Miktar">
             <span class="k-x">×</span>
@@ -377,7 +465,16 @@ function hareketSheet(cariId, h, yeniTur){
         </div>`).join('');
       document.querySelectorAll('.kalem').forEach(el => {
         const i = +el.dataset.i;
-        el.querySelector('.k-ad').oninput = e => { kalemler[i].ad = e.target.value; };
+        el.querySelector('.k-ad').oninput = e => {
+          kalemler[i].ad = e.target.value;
+          const u = S.urunler.find(x => normAd(x.ad)===normAd(e.target.value));
+          const fiyat = u && (t==='L' ? (u.alisFiyat ?? u.satisFiyat) : (u.satisFiyat ?? u.alisFiyat));
+          if (u && fiyat!=null && String(kalemler[i].fiyat).trim()==='') {
+            kalemler[i].fiyat = tl(fiyat); el.querySelector('.k-fiyat').value = tl(fiyat);
+            if (String(kalemler[i].miktar).trim()==='') { kalemler[i].miktar = '1'; el.querySelector('.k-miktar').value = '1'; }
+            guncelle(); el.querySelector('.k-miktar').select();
+          }
+        };
         el.querySelector('.k-miktar').oninput = e => { kalemler[i].miktar = e.target.value; guncelle(); };
         el.querySelector('.k-fiyat').oninput = e => { kalemler[i].fiyat = e.target.value; guncelle(); };
         const sil = el.querySelector('.k-sil'); if (sil) sil.onclick = () => { kalemler.splice(i,1); ciz(); };
@@ -386,6 +483,9 @@ function hareketSheet(cariId, h, yeniTur){
     };
     if (grup==='mal') {
       ciz();
+      document.querySelectorAll('.vade-chips button').forEach(b => b.onclick = () => {
+        const g = +b.dataset.g; $('#f-vade').value = g ? gunEkle($('#f-tarih').value || today(), g) : '';
+      });
       $('#k-ekle').onclick = () => { kalemler.push({ad:'', miktar:'', fiyat:''}); ciz(); const a=document.querySelectorAll('.k-ad'); a[a.length-1].focus(); };
       if (!h) document.querySelector('.k-ad').focus();
     } else if (!h) $('#f-tutar').focus();
@@ -407,7 +507,10 @@ function hareketSheet(cariId, h, yeniTur){
         }
         const tutar = Math.round(temiz.reduce((s,k)=>s+k.miktar*k.fiyat,0)*100)/100;
         if (!(tutar>0)) { $('#f-err').textContent='Toplam sıfır olamaz.'; return; }
-        body = { cariId, tur:t, tutar, kalemler:temiz, aciklama:$('#f-acik').value.trim(), tarih };
+        const vade = $('#f-vade').value;
+        if (vade && vade < tarih) { $('#f-err').textContent='Vade, işlem tarihinden önce olamaz.'; return; }
+        body = { cariId, tur:t, tutar, kalemler:temiz, aciklama:$('#f-acik').value.trim(), tarih, vade };
+        urunOgren(temiz, t);
       } else {
         const tutar = parseTL($('#f-tutar').value);
         if (!(tutar>0)) { $('#f-err').textContent='Sıfırdan büyük bir tutar yazın (örn. 1.250,50).'; return; }
@@ -420,6 +523,101 @@ function hareketSheet(cariId, h, yeniTur){
     if (h) $('#f-del').onclick = () => {
       $('#delWrap').innerHTML = `<button class="btn borc" id="f-del2" style="flex:1">Evet, bu hareketi sil</button>`;
       $('#f-del2').onclick = () => { S.hareketler = S.hareketler.filter(x=>x.id!==h.id); if (save()) { close(); toast('Silindi'); } };
+    };
+  });
+}
+
+// ---------- rapor
+function raporSheet(bas, son){
+  const bugun = today();
+  if (!bas) { bas = bugun; son = bugun; }
+  const pazartesi = (() => { const d = new Date(bugun+'T12:00:00'); const g = (d.getDay()+6)%7; d.setDate(d.getDate()-g); return d.toISOString().slice(0,10); })();
+  const ayBasi = bugun.slice(0,8)+'01';
+  const hs = S.hareketler.filter(h => h.tarih>=bas && h.tarih<=son);
+  const top = {S:0,L:0,T:0,O:0};
+  hs.forEach(h => { const k = ({B:'S',A:'T'})[h.tur]||h.tur; if (k in top) top[k]+=h.tutar; });
+  const urunTop = {};
+  hs.filter(h => ['S','B','L'].includes(h.tur)).forEach(h => (h.kalemler||[]).forEach(k => {
+    const key = (h.tur==='L'?'L':'S') + '|' + (k.ad||'Adsız');
+    urunTop[key] = urunTop[key] || {ad:k.ad||'Adsız', tur:h.tur==='L'?'Alış':'Satış', miktar:0, tutar:0};
+    urunTop[key].miktar += k.miktar; urunTop[key].tutar += k.miktar*k.fiyat;
+  }));
+  const urunler = Object.values(urunTop).sort((a,b)=>b.tutar-a.tutar).slice(0,12);
+  const cariAd = id => (S.cariler.find(c=>c.id===id)||{}).ad || 'Silinmiş cari';
+  const secili = bas===bugun&&son===bugun ? 'gun' : bas===pazartesi&&son===bugun ? 'hafta' : bas===ayBasi&&son===bugun ? 'ay' : '';
+  const kasa = top.T - top.O;
+  sheet(`
+    <h2>Rapor</h2>
+    <div class="chips" style="margin-top:0">
+      <button class="chip ${secili==='gun'?'on':''}" data-r="gun">Bugün</button>
+      <button class="chip ${secili==='hafta'?'on':''}" data-r="hafta">Bu hafta</button>
+      <button class="chip ${secili==='ay'?'on':''}" data-r="ay">Bu ay</button>
+    </div>
+    <div class="r-range"><label>Başlangıç<input type="date" id="r-bas" value="${bas}"></label><label>Bitiş<input type="date" id="r-son" value="${son}"></label></div>
+    <div class="r-grid">
+      <div><small>Satış</small><b class="num c-borc">${tl(top.S)} ₺</b></div>
+      <div><small>Alış</small><b class="num c-alacak">${tl(top.L)} ₺</b></div>
+      <div><small>Tahsilat (giren para)</small><b class="num">${tl(top.T)} ₺</b></div>
+      <div><small>Ödeme (çıkan para)</small><b class="num">${tl(top.O)} ₺</b></div>
+    </div>
+    <div class="r-kasa"><span>Kasa farkı<br><small>giren − çıkan para</small></span><b class="num ${kasa<-0.004?'c-borc':kasa>0.004?'c-alacak':''}">${kasa<-0.004?'−':''}${tl(Math.abs(kasa))} ₺</b></div>
+    ${urunler.length ? `<div class="r-h">Ürünler</div><div class="r-list">${urunler.map(u=>`<div><span>${esc(u.ad)} <small>${u.tur}</small></span><span class="num">${sayi(u.miktar)} adet · ${tl(u.tutar)} ₺</span></div>`).join('')}</div>` : ''}
+    <div class="r-h">Hareketler (${hs.length})</div>
+    <div class="r-list">${hs.length ? hs.slice().sort((a,b)=>a.tarih<b.tarih?1:-1).map(h=>`<div><span>${esc(cariAd(h.cariId))}<small>${trDate(h.tarih)} · ${tur(h).ad}</small></span><span class="num ${tur(h).renk}">${tl(h.tutar)} ₺</span></div>`).join('') : '<div class="empty" style="padding:14px">Bu tarihlerde hareket yok.</div>'}</div>
+    <div class="actions"><button class="btn ghost" id="r-paylas">Raporu gönder</button><button class="btn" id="f-cancel">Kapat</button></div>`, close => {
+    $('#f-cancel').onclick = close;
+    document.querySelectorAll('[data-r]').forEach(b => b.onclick = () => {
+      const r = b.dataset.r; raporSheet(r==='gun'?bugun:r==='hafta'?pazartesi:ayBasi, bugun);
+    });
+    const yenile = () => { const a=$('#r-bas').value, b=$('#r-son').value; if (a && b) raporSheet(a<=b?a:b, a<=b?b:a); };
+    $('#r-bas').onchange = yenile; $('#r-son').onchange = yenile;
+    $('#r-paylas').onclick = () => {
+      const l = [`Rapor ${trDate(bas)}${bas!==son?' – '+trDate(son):''}`, '', `Satış: ${tl(top.S)} ₺`, `Alış: ${tl(top.L)} ₺`, `Tahsilat: ${tl(top.T)} ₺`, `Ödeme: ${tl(top.O)} ₺`, `Kasa farkı: ${tl(kasa)} ₺`];
+      if (urunler.length) { l.push('', 'Ürünler:'); urunler.forEach(u => l.push(`  ${u.ad} (${u.tur}): ${sayi(u.miktar)} adet, ${tl(u.tutar)} ₺`)); }
+      paylas({text:l.join('\n'), title:'Rapor'});
+    };
+  });
+}
+
+// ---------- ürünler
+function urunlerSheet(duzenle){
+  const liste = S.urunler.slice().sort((a,b)=>(a.ad||'').localeCompare(b.ad||'','tr'));
+  const u = duzenle ? S.urunler.find(x=>x.id===duzenle) : null;
+  sheet(`
+    <h2>${duzenle===undefined ? 'Ürünler' : u ? 'Ürünü düzenle' : 'Yeni ürün'}</h2>
+    ${duzenle===undefined ? `
+      <p>Satış veya alış girdiğiniz her ürün buraya kendiliğinden eklenir. Ürün adını yazınca son fiyatı gelir.</p>
+      <div class="r-list">${liste.length ? liste.map(x=>`<button class="u-row" data-u="${esc(x.id)}"><span>${esc(x.ad)}</span><span class="num"><small>satış</small> ${x.satisFiyat!=null?tl(x.satisFiyat):'—'} · <small>alış</small> ${x.alisFiyat!=null?tl(x.alisFiyat):'—'}</span></button>`).join('') : '<div class="empty" style="padding:14px">Henüz ürün yok.</div>'}</div>
+      <div class="actions"><button class="btn ghost" id="u-yeni">+ Ürün ekle</button><button class="btn" id="f-cancel">Kapat</button></div>`
+    : `
+      <label>Ürün adı<input id="u-ad" value="${esc(u?.ad)}" autocomplete="off"></label>
+      <div class="r-range"><label>Satış fiyatı (₺)<input id="u-sf" inputmode="decimal" class="num" value="${u?.satisFiyat!=null?tl(u.satisFiyat):''}"></label><label>Alış fiyatı (₺)<input id="u-af" inputmode="decimal" class="num" value="${u?.alisFiyat!=null?tl(u.alisFiyat):''}"></label></div>
+      <div class="err" id="f-err"></div>
+      <div class="actions"><button class="btn ghost" id="u-geri">Geri</button><button class="btn" id="u-kaydet">Kaydet</button></div>
+      ${u?`<div class="actions" id="delWrap"><button class="btn danger" id="u-sil">Ürünü sil</button></div>`:''}`}`, close => {
+    if (duzenle===undefined) {
+      $('#f-cancel').onclick = close;
+      $('#u-yeni').onclick = () => urunlerSheet(null);
+      document.querySelectorAll('[data-u]').forEach(b => b.onclick = () => urunlerSheet(b.dataset.u));
+      return;
+    }
+    if (!u) $('#u-ad').focus();
+    $('#u-geri').onclick = () => urunlerSheet();
+    $('#u-kaydet').onclick = () => {
+      const ad = $('#u-ad').value.trim();
+      if (!ad) { $('#f-err').textContent='Ürün adını yazın.'; return; }
+      const ayni = S.urunler.find(x => normAd(x.ad)===normAd(ad) && x!==u);
+      if (ayni) { $('#f-err').textContent='Bu adla bir ürün zaten var.'; return; }
+      const oku = v => { v = v.trim(); if (!v) return null; const n = parseTL(v); return n>=0 ? Math.round(n*100)/100 : NaN; };
+      const sf = oku($('#u-sf').value), af = oku($('#u-af').value);
+      if (Number.isNaN(sf) || Number.isNaN(af)) { $('#f-err').textContent='Fiyatı rakamla yazın (örn. 20 veya 12,50).'; return; }
+      const hedef = u || (S.urunler.push({id:uid()}), S.urunler[S.urunler.length-1]);
+      Object.assign(hedef, {ad, satisFiyat:sf, alisFiyat:af, son:Date.now()});
+      if (save()) { toast('Kaydedildi'); urunlerSheet(); }
+    };
+    if (u) $('#u-sil').onclick = () => {
+      $('#delWrap').innerHTML = `<button class="btn borc" id="u-sil2" style="flex:1">Evet, ürünü sil</button>`;
+      $('#u-sil2').onclick = () => { S.urunler = S.urunler.filter(x=>x!==u); if (save()) { toast('Ürün silindi'); urunlerSheet(); } };
     };
   });
 }
@@ -447,7 +645,7 @@ function ekstreGonder(c, rows){
 
 async function yedekAl(){
   const d = new Date(), stamp = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-  const data = JSON.stringify({uygulama:'CariDefteri', surum:1, tarih:new Date().toISOString(), cariler:S.cariler, hareketler:S.hareketler}, null, 1);
+  const data = JSON.stringify({uygulama:'CariDefteri', surum:1, tarih:new Date().toISOString(), cariler:S.cariler, hareketler:S.hareketler, urunler:S.urunler}, null, 1);
   const file = new File([data], `cari-yedek-${stamp}.json`, {type:'application/json'});
   const r = await paylas({file, title:'Cari yedeği'});
   if (r==='ok') { S.sonYedek = Date.now(); save(); render(); toast('Yedek hazır. Dosyalar\'a veya WhatsApp\'a kaydedin.'); }
@@ -477,12 +675,17 @@ function yukleDosya(file, close){
     if (!d || !Array.isArray(d.cariler) || !Array.isArray(d.hareketler)) { $('#f-err').textContent='Bu dosya bir Cari Defteri yedeği değil.'; return; }
     const err = $('#f-err');
     err.innerHTML = `Yedekte ${d.cariler.length} cari, ${d.hareketler.length} hareket var. Şu anki kayıtların <b>yerine</b> geçecek.<br><button class="btn borc" id="b-onay" style="margin-top:8px;width:100%">Evet, geri yükle</button>`;
-    $('#b-onay').onclick = () => { S.cariler=d.cariler; S.hareketler=d.hareketler; S.view='list'; if (save()) { close(); toast('Yedek geri yüklendi'); } };
+    $('#b-onay').onclick = () => { S.cariler=d.cariler; S.hareketler=d.hareketler; S.urunler=d.urunler||[]; S.view='list'; if (save()) { close(); toast('Yedek geri yüklendi'); } };
   };
   r.readAsText(file);
 }
 
-load(); render();
+load();
+if (!S.urunler.length && S.hareketler.some(h=>h.kalemler&&h.kalemler.length)) {
+  S.hareketler.slice().sort((a,b)=>a.tarih<b.tarih?-1:1).forEach(h => { if (h.kalemler) urunOgren(h.kalemler, h.tur==='L'?'L':'S'); });
+  save();
+}
+render();
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(()=>{});
 })();
 </script>
